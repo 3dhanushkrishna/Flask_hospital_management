@@ -32,8 +32,8 @@ def admin_login():
         getpassword=request.form["password"]
         print(getusername)
         print(getpassword)
-        if getusername=="admin" and getpassword=="12345":
-            return redirect("/dashboard")
+        # if getusername=="admin" and getpassword=="12345":
+        #     return redirect("/dashboard")
     return render_template("login.html")
 
 @hospital.route("/dashboard",methods = ["GET","POST"])
@@ -86,25 +86,29 @@ def search_patient():
 @hospital.route("/delete",methods = ["GET","POST"])
 def delete_patient():
     if request.method == "POST":
-        getname = request.form["name"]
+    #     getname = request.form["name"]
         getmobnumber = request.form["mobnumber"]
-        getage = request.form["age"]
-        getaddress = request.form["address"]
-        getdob = request.form["dob"]
-        getplace = request.form["place"]
-        getpincode = request.form["pincode"]
-        print(getname)
-        print(getmobnumber)
-        print(getage)
-        print(getaddress)
-        print(getdob)
-        print(getplace)
-        print(getpincode)
+    #     getage = request.form["age"]
+    #     getaddress = request.form["address"]
+    #     getdob = request.form["dob"]
+    #     getplace = request.form["place"]
+    #     getpincode = request.form["pincode"]
+    #     print(getname)
+    #     print(getmobnumber)
+    #     print(getage)
+    #     print(getaddress)
+    #     print(getdob)
+    #     print(getplace)
+    #     print(getpincode)
 
         try:
             connection.execute("delete from patient where mobnumber="+getmobnumber)
             connection.commit()
             print("Patient data Deleted Successfully.")
+            result = connection.execute("select * from patient")
+            # result = connection.fetchall()
+            return render_template("delete.html", patient=result)
+
         except Exception as e:
             print("Error occured ", e)
 
