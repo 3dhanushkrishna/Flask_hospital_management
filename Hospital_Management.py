@@ -1,17 +1,15 @@
-from os import abort
-
 from flask import Flask, render_template, request
 import sqlite3 as sql
 
 from werkzeug.utils import redirect
 
 connection=sql.connect("Hospital.db",check_same_thread=False)
-listofpatient = connection.execute("select name from sqlite_master where type='table' AND name='patient'").fetchall()
+table = connection.execute("select name from sqlite_master where type='table' AND name='Patient'").fetchall()
 
-if listofpatient!=[]:
+if table != []:
     print("Table exist already")
 else:
-    connection.execute('''create table patient(
+    connection.execute('''create table Patient(
                                 ID integer primary key autoincrement,
                                 name text,
                                 mobnumber integer,
@@ -23,20 +21,23 @@ else:
                                 )''')
     print("Table Created Successfully")
 
-hospital = Flask(__name__)
+app=Flask(__name__)
 
-@hospital.route("/",methods = ["GET","POST"])
+@app.route("/",methods = ["GET","POST"])
 def admin_login():
     if request.method == "POST":
-        getusername=request.form["username"]
-        getpassword=request.form["password"]
-        print(getusername)
-        print(getpassword)
-        # if getusername=="admin" and getpassword=="12345":
-        #     return redirect("/dashboard")
-    return render_template("login.html")
+        getUsername=request.form["username"]
+        getPassword=request.form["password"]
+        print(getUsername)
+        print(getPassword)
+        if getUsername=="admin" and getPassword=="12345":
+            return redirect('/dashboard')
+        else:
+            return render_template("login.html", status=True)
+    else:
+        return render_template("login.html", status=False)
 
-@hospital.route("/dashboard",methods = ["GET","POST"])
+@app.route("/dashboard",methods = ["GET","POST"])
 def patient_registration():
     if request.method == "POST":
         getname=request.form["name"]
@@ -58,63 +59,54 @@ def patient_registration():
             connection.execute("insert into patient(name,mobnumber,age,address,dob,place,pincode)\
                                values('" + getname + "'," + getmobnumber + "," + getage + ",'" + getaddress + "','" + getdob + "','" + getplace + "'," + getpincode + ")")
             connection.commit()
-            print("Student Data Added Successfully.")
-        except Exception as e:
-            print("Error occured ", e)
+            print("Student Data Added Successfully!!!")
+            return redirect("/viewall")
+        except Exception as err:
+            print("Error occured ", err)
 
     return render_template("dashboard.html")
 
-@hospital.route("/viewall")
+@app.route("/viewall")
 def view_patient():
     cursor=connection.cursor()
-    count=cursor.execute("select * from patient")
+    count=cursor.execute("select * from Patient")
     result=cursor.fetchall()
     return render_template("viewall.html",patient=result)
 
-@hospital.route("/search",methods = ["GET","POST"])
+@app.route("/search",methods = ["GET","POST"])
 def search_patient():
     if request.method == "POST":
         getmobnumber=request.form["mobnumber"]
         print(getmobnumber)
         cursor = connection.cursor()
-        count = cursor.execute("select * from patient where mobnumber="+getmobnumber)
+        count = cursor.execute("select * from Patient where mobnumber="+getmobnumber)
         result = cursor.fetchall()
-        return render_template("search.html", searchpatient=result)
+        if result is None:
+            print("There is no patient",getmobnumber)
+        else:
+            return render_template("search.html", searchpatient=result, status=True)
 
-    return render_template("search.html")
+    else:
+       return render_template("search.html")
 
-@hospital.route("/delete",methods = ["GET","POST"])
+@app.route("/delete",methods = ["GET","POST"])
 def delete_patient():
     if request.method == "POST":
-    #     getname = request.form["name"]
         getmobnumber = request.form["mobnumber"]
-    #     getage = request.form["age"]
-    #     getaddress = request.form["address"]
-    #     getdob = request.form["dob"]
-    #     getplace = request.form["place"]
-    #     getpincode = request.form["pincode"]
-    #     print(getname)
-    #     print(getmobnumber)
-    #     print(getage)
-    #     print(getaddress)
-    #     print(getdob)
-    #     print(getplace)
-    #     print(getpincode)
+        print(getmobnumber)
 
         try:
-            connection.execute("delete from patient where mobnumber="+getmobnumber)
-            connection.commit()
-            print("Patient data Deleted Successfully.")
-            result = connection.execute("select * from patient")
-            # result = connection.fetchall()
-            return render_template("delete.html", patient=result)
 
-        except Exception as e:
-            print("Error occured ", e)
+            connection.execute("delete from Patient where mobnumber="+getmobnumber)
+            connection.commit()
+            print("Patient data Deleted Successfully!!")
+            return redirect("/viewall")
+        except Exception as err:
+            print("Error occured ", err)
 
     return render_template("delete.html")
 
-@hospital.route("/update",methods = ["GET","POST"])
+@app.route("/update",methods = ["GET","POST"])
 def update_patient():
     if request.method == "POST":
         mobnumber=request.form["mobnumber"]
@@ -125,14 +117,18 @@ def update_patient():
         place = request.form["place"]
         pincode = request.form["pincode"]
         try:
-            connection.execute("update patient set name='"+name+"',age="+age+",address='"+address+"',dob='"+dob+"',place='"+place+"',pincode="+pincode+" where mobnumber="+mobnumber)
+            connection.execute("update Patient set name='"+name+"',age="+age+",address='"+address+"',dob='"+dob+"',place='"+place+"',pincode="+pincode+" where mobnumber="+mobnumber)
             connection.commit()
-            print("Updated Successfully")
-        except Exception as e:
-            print(e)
+            print("Updated Successfully!!!")
+            return redirect("/viewall")
+
+
+        except Exception as err:
+            print(err)
 
     return render_template("update.html")
 
 
+
 if __name__=="__main__":
-    hospital.run()
+    app.run()

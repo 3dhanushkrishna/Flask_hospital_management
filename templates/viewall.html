@@ -5,32 +5,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Registration</title>
+    <h1><center>All Patient</center></h1>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-Dark bg-Dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/dashboard">Add Patient</a>
+          <a class="navbar-brand" href="#">Patient Nav</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/">login</a>
+                 <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard">Add Patient</a>
               </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/viewall">Viewall</a>
-                  </li>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/viewall">View All</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/search">Search</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/update">Edit</a>
+                <a class="nav-link" href="/update">update</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/delete">Delete</a>
-              </li>
+
             </ul>
           </div>
         </div>
@@ -38,6 +39,8 @@
     <div class="container">
         <div class="row">
             <div class="col">
+                <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+
                 <table class="table">
                     <thead>
                       <tr>
@@ -64,10 +67,11 @@
                       {% endfor %}
                     </tbody>
                   </table>
+                </div>
             </div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

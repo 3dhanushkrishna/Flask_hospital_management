@@ -5,36 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+    <h1><center>Search Patient</center></h1>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-Dark bg-Dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/dashboard">Add Patient</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/">login</a>
-          </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/viewall">Viewall</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Patient Nav</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                 <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard">Add Patient</a>
               </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/search">Search</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/update">Edit</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/delete">Delete</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+                <li class="nav-item">
+                <a class="nav-link" href="/viewall">View All</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/search">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/update">update</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/delete">Delete</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -49,8 +50,12 @@
                             <td><button type="submit" class="btn btn-primary">search</button></td>
                         </tr>
                     </table>
-                  <table class="table">
-                    <thead>
+                   <div class="container">
+        <div class="row">
+            <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                {% if status %}
+                <table class="table">
+                  <thead></thead>
                       <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Mobile Number</th>
@@ -60,7 +65,7 @@
                         <th scope="col">Place</th>
                         <th scope="col">Pincode</th>
                       </tr>
-                    </thead>
+
                     <tbody>
                       {% for i in searchpatient %}
                       <tr>
@@ -75,6 +80,9 @@
                       {% endfor %}
                     </tbody>
                   </table>
+                {% endif %}
+            </div>
+        </div>
                 </form>
              </div>
         </div>
